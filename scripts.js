@@ -13,7 +13,10 @@ function initMap() {
 
   heatmap = new google.maps.visualization.HeatmapLayer({
     data: getPoints(),
-    map: map
+    map: map,
+    radius: 10,
+    opacity: 1.5,
+    dissipating: true, 
   });
 }
 
@@ -51,8 +54,23 @@ function changeOpacity() {
 
 // Heatmap data: 500 Points
 function getPoints() {
-  return [
-    {location: new google.maps.LatLng(49.263068, -123.244414), weight: .5},
-    {location: new google.maps.LatLng(49.263070, -123.2442), weight: .5},
-  ];
+
+  //MAIN MALL
+  var locations = new Array(101);
+  var startLat = 49.259566;
+  var startLon = -123.248518;
+  var endLat = 49.268877;
+  var endLon =  -123.256107;
+  var incLat = Math.abs((startLat - endLat) / 100);
+  console.log(incLat);
+  var incLon = Math.abs((startLon - endLon) / 100);
+  console.log(incLon);
+  for (var i = 0; i < 100; i++) {
+    locations[i] = {location: new google.maps.LatLng(startLat+=incLat, startLon-=incLon), weight: .3};
+  }
+
+  //Wreck Beach
+  //var locations = new Array(100);
+  locations[101] = {location: new google.maps.LatLng(49.262518, -123.261965), weight: 3};
+  return locations;
 }
