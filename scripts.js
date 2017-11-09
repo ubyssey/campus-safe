@@ -2,14 +2,35 @@
 // parameter when you first load the API. For example:
 // <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=visualization">
 
-var map, heatmap;
-
+var map, heatmap, infoWindow;
+ var im = 'http://www.robotwoods.com/dev/misc/bluecircle.png';
 function initMap() {
   map = new google.maps.Map(document.getElementById('map'), {
-    zoom: 13,
+    zoom: 15,
     center: {lat: 49.263068, lng: -123.244414},
     mapTypeId: 'satellite'
   });
+  var userMarker = new google.maps.Marker({
+          position: {lat: -25.363, lng: 131.044},
+          map: map,
+          icon: im
+  });
+  //Make
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(function(position) {
+      var pos = {
+        lat: position.coords.latitude,
+        lng: position.coords.longitude
+      };
+
+      userMarker.setPosition(pos);
+      map.setCenter(pos);
+    }, function() {
+      handleLocationError(true, userMarker, map.getCenter());
+    });
+  } else {
+    handleLocationError(false, userMarker, map.getCenter());
+  }
 
   heatmap = new google.maps.visualization.HeatmapLayer({
     data: getPoints(),
@@ -74,3 +95,11 @@ function getPoints() {
   locations[101] = {location: new google.maps.LatLng(49.262518, -123.261965), weight: 3};
   return locations;
 }
+
+function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+    infoWindow.setPosition(pos);
+    infoWindow.setContent(browserHasGeolocation ?
+                          'Error: The Geolocation service failed.' :
+                          'Error: Your browser doesn\'t support geolocation.');
+    infoWindow.open(map);
+  }
