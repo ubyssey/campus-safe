@@ -1,2 +1,3 @@
 # campus-safe
-This is the API we will be using: https://developers.google.com/maps/documentation/javascript/examples/layer-heatmap
+A map that plots the safest/unsafe routes at University of British Columbia based on this scale: https://goo.gl/forms/wyXlAsriaz2UT0Yl2
+
