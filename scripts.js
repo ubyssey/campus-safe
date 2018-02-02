@@ -1,11 +1,5 @@
-// This example requires the Visualization library. Include the libraries=visualization
-// parameter when you first load the API. For example:
-// <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=visualization">
-
 var map, heatmap, infoWindow;
 var im = 'http://www.robotwoods.com/dev/misc/bluecircle.png';
-
-
 
 function initMap() {
   map = new google.maps.Map(document.getElementById('map'), {
@@ -34,26 +28,26 @@ function initMap() {
     handleLocationError(false, userMarker, map.getCenter());
   }
 
-var gradient = {1: '#e50023', 1.5: '#dd2b00', 2: '#d57500', 2.5: '#ceb900',
-  less3: '#94c600', perfect3: '#4bbf00' };
+  var gradient = {1: '#e50023', 1.5: '#dd2b00', 2: '#d57500', 2.5: '#ceb900',
+    less3: '#94c600', perfect3: '#4bbf00' };
 
  $.getJSON("data.JSON", function(routeData) {
    var colour;
     for (i = 1; i < 4; i++) {
       if (parseFloat(routeData[i][6]) == 1) {
         colour = gradient['1'];
-      } else if (parseFloat(routeData[i][6]) < 1 && parseFloat(routeData[i][6]) <= 1.5) {
+      } else if (parseFloat(routeData[i][6]) > 1 && parseFloat(routeData[i][6]) <= 1.5) {
         colour = gradient['1.5'];
-      } else if (parseFloat(routeData[i][6]) < 1.5 && parseFloat(routeData[i][6]) <= 2) {
+      } else if (parseFloat(routeData[i][6]) > 1.5 && parseFloat(routeData[i][6]) <= 2) {
         colour = gradient['2'];
-      } else if (parseFloat(routeData[i][6]) < 2 && parseFloat(routeData[i][6]) <= 2.5) {
+      } else if (parseFloat(routeData[i][6]) > 2 && parseFloat(routeData[i][6]) <= 2.5) {
         colour = gradient['2.5'];
-      } else if (parseFloat(routeData[i][6]) < 2.5 && parseFloat(routeData[i][6]) < 3) {
+      } else if (parseFloat(routeData[i][6]) > 2.5 && parseFloat(routeData[i][6]) < 3) {
         colour = gradient['less3'];
       } else if (parseFloat(routeData[i][6]) == 3) {
         colour = gradient['perfect3'];
       }
-      console.log(routeData[i][1] + ": " + colour + " rating: " + routeData);
+      console.log(routeData[i][1] + ": " + colour + " rating: " + routeData[i][6]);
       var path = [
         {lat: parseFloat(routeData[i][7]), lng: parseFloat(routeData[i][8])},
         {lat: parseFloat(routeData[i][9]), lng: parseFloat(routeData[i][10])},
@@ -69,10 +63,7 @@ var gradient = {1: '#e50023', 1.5: '#dd2b00', 2: '#d57500', 2.5: '#ceb900',
       line.setMap(map);
     }
  });
-
-
 }
-
 
 function handleLocationError(browserHasGeolocation, infoWindow, pos) {
     infoWindow.setPosition(pos);
